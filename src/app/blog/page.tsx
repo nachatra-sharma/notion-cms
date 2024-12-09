@@ -36,7 +36,10 @@ const Blog = async () => {
               <Card key={index} className='bg-[#f5cd79]'>
                 <CardHeader className='flex flex-col gap-2'>
                   <img
-                    src={post.image?.files[0].file.url}
+                    src={
+                      post.image?.files[0]?.file?.url ||
+                      post.image.files[0].external.url
+                    }
                     alt='Blog Post Image'
                     width={"400px"}
                     height={"300px"}

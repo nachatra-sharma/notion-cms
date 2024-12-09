@@ -8,10 +8,11 @@ interface ParamsProps {
   };
 }
 
-export async function GET({ params }: ParamsProps) {
+export async function GET(req: Request, context: ParamsProps) {
   try {
     // getting the slug value
-    const { slug } = await params;
+    const { slug }: { slug: string | any } = await context.params;
+
     // fetching the single post data using slug
     const result = await getSinglePosts(slug);
     // returning the response
