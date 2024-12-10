@@ -23,9 +23,6 @@ const SingleBlog = async ({ params }: { params: { slug: string } }) => {
   return (
     <div className='my-10'>
       <div className='w-[90%] mx-auto'>
-        <div className='text-left font-medium text-sm text-gray-300 select-none'>
-          Home &gt; Blog &gt; Blog Details
-        </div>
         <div className='mt-10'>
           <img
             src={
@@ -40,16 +37,16 @@ const SingleBlog = async ({ params }: { params: { slug: string } }) => {
               return (
                 <div
                   style={{ backgroundColor: 'purple' }}
-                  className='rounded-full'
+                  className='rounded-full flex'
                   key={index}>
-                  <p className='text-[#d3cece] tracking-wide font-medium text-sm px-4 py-1 capitalize'>
+                  <p className='text-[#d3cece] tracking-wide font-medium text-sm px-3 md:px-4 py-1 capitalize'>
                     {tag.name}
                   </p>
                 </div>
               )
             })}
           </div>
-          <h1 className='mt-10 text-5xl font-bold tracking-wide text-white mb-10'>
+          <h1 className='mt-10 md:text-5xl text-xl font-bold tracking-wide text-white mb-10'>
             {properties?.name?.title[0]?.plain_text}
           </h1>
           <div className='prose prose-invert max-w-none'>

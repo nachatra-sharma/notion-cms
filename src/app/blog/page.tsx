@@ -46,10 +46,10 @@ const Blog = () => {
       <div className='mt-8'>
         <div className='w-[100%] mx-auto'>
           <div className='flex flex-col gap-7'>
-            <h1 className='text-center font-bold text-6xl font-serif text-white'>
+            <h1 className='text-center font-bold text-3xl md:text-6xl font-serif text-white'>
               Share your story with the world.
             </h1>
-            <p className='text-center font-semibold tracking-wider w-[80%] leading-8 mx-auto text-base text-gray-300'>
+            <p className='text-center font-semibold tracking-wider w-[90%] md:w-[80%] leading-8 mx-auto text-sm md:text-base text-gray-300'>
               Discover a collection of engaging and personalized blogs that
               reflect unique stories and perspectives. Each blog is crafted to
               inspire, educate, and entertain. Whether you're looking to grow
@@ -69,8 +69,6 @@ const Blog = () => {
     )
   }
 
-  console.log(data.data.allPosts)
-
   if (error) {
     return <p className='text-center text-red-500'>Failed to load blogs.</p>
   }
@@ -81,10 +79,10 @@ const Blog = () => {
     <div className='mt-8'>
       <div className='w-[100%] mx-auto'>
         <div className='flex flex-col gap-7'>
-          <h1 className='text-center font-bold text-6xl font-serif text-white'>
+          <h1 className='text-center font-bold text-3xl md:text-6xl font-serif text-white'>
             Share your story with the world.
           </h1>
-          <p className='text-center font-semibold tracking-wider w-[80%] leading-8 mx-auto text-base text-gray-300'>
+          <p className='text-center font-semibold tracking-wider w-[90%] md:w-[80%] leading-8 mx-auto text-sm md:text-base text-gray-300'>
             Discover a collection of engaging and personalized blogs that
             reflect unique stories and perspectives. Each blog is crafted to
             inspire, educate, and entertain. Whether you're looking to grow your
@@ -92,10 +90,12 @@ const Blog = () => {
             blogs have something for everyone.
           </p>
         </div>
-        <div className='flex flex-wrap justify-around my-10'>
+        <div className='flex flex-wrap justify-around md:gap-0 gap-5 my-10'>
           {data?.data?.allPosts.map((post: any, index: number) => {
             return (
-              <Card key={index} className='bg-[#030711] border-gray-700 w-1/3'>
+              <Card
+                key={index}
+                className='bg-[#030711] border-gray-700 w-[95%] mx-auto md:w-1/3'>
                 <CardHeader className='flex flex-col gap-2'>
                   <div className='w-full h-[250px] overflow-hidden rounded-lg'>
                     <img
@@ -112,9 +112,9 @@ const Blog = () => {
                       return (
                         <div
                           style={{ backgroundColor: 'purple' }}
-                          className='rounded-full'
+                          className='rounded-full flex'
                           key={index}>
-                          <p className='text-[#d3cece] tracking-wide font-medium text-sm px-4 py-1 capitalize'>
+                          <p className='text-[#d3cece] tracking-wide font-medium text-sm px-3 md:px-4 py-1 capitalize'>
                             {tag.name}
                           </p>
                         </div>
