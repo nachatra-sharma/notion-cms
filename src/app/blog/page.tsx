@@ -1,4 +1,5 @@
-import Link from "next/link";
+'use client'
+import Link from 'next/link'
 import {
   Card,
   CardContent,
@@ -6,89 +7,154 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import axios from "axios";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/card'
+import axios from 'axios'
+import { Button } from '@/components/ui/button'
+import { SkeletonCard } from '@/components/pages/app.skeleton'
+import { useState, useEffect } from 'react'
 
 async function fetchAllBlogs() {
-  const blogs = await axios.get("http://localhost:3000/api/blog");
-  return blogs?.data;
+  const blogs = await axios.get('http://localhost:3000/api/blog')
+  return blogs?.data
 }
 
-const Blog = async () => {
-  const data = await fetchAllBlogs();
+const Blog = () => {
+  const [data, setData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
-  if (!data?.success) {
-    <p>Error Page</p>;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetchAllBlogs()
+        if (response?.success) {
+          setData(response.data)
+        } else {
+          setError(true)
+        }
+      } catch (err) {
+        setError(true)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className='mt-8'>
+        <div className='w-[100%] mx-auto'>
+          <div className='flex flex-col gap-7'>
+            <h1 className='text-center font-bold text-6xl font-serif text-white'>
+              Share your story with the world.
+            </h1>
+            <p className='text-center font-semibold tracking-wider w-[80%] leading-8 mx-auto text-base text-gray-300'>
+              Discover a collection of engaging and personalized blogs that
+              reflect unique stories and perspectives. Each blog is crafted to
+              inspire, educate, and entertain. Whether you're looking to grow
+              your knowledge, find inspiration, or simply enjoy great content,
+              our blogs have something for everyone.
+            </p>
+          </div>
+          <div className='flex flex-wrap gap-10 justify-around my-10'>
+            {Array(8)
+              .fill(null)
+              .map((_, index) => (
+                <SkeletonCard key={index} />
+              ))}
+          </div>
+        </div>
+      </div>
+    )
   }
 
-  return data?.data?.data?.allPosts.length === 0 ? (
-    <p>Loading</p>
+  console.log(data.data.allPosts)
+
+  if (error) {
+    return <p className='text-center text-red-500'>Failed to load blogs.</p>
+  }
+
+  return data?.data?.allPosts.length === 0 ? (
+    <p className='text-center text-gray-400'>No blogs found.</p>
   ) : (
-    <div className='my-10 bg-[#2f3640]'>
-      <div className='w-[90%] mx-auto'>
-        <div className='text-center font-bold text-2xl  text-[#e1b12c]'>
-          Your Published Blogs.
+    <div className='mt-8'>
+      <div className='w-[100%] mx-auto'>
+        <div className='flex flex-col gap-7'>
+          <h1 className='text-center font-bold text-6xl font-serif text-white'>
+            Share your story with the world.
+          </h1>
+          <p className='text-center font-semibold tracking-wider w-[80%] leading-8 mx-auto text-base text-gray-300'>
+            Discover a collection of engaging and personalized blogs that
+            reflect unique stories and perspectives. Each blog is crafted to
+            inspire, educate, and entertain. Whether you're looking to grow your
+            knowledge, find inspiration, or simply enjoy great content, our
+            blogs have something for everyone.
+          </p>
         </div>
         <div className='flex flex-wrap justify-around my-10'>
-          {data?.data?.data?.allPosts.map((post: any, index: number) => {
+          {data?.data?.allPosts.map((post: any, index: number) => {
             return (
-              <Card key={index} className='bg-[#f5cd79]'>
+              <Card key={index} className='bg-[#030711] border-gray-700 w-1/3'>
                 <CardHeader className='flex flex-col gap-2'>
-                  <img
-                    src={
-                      post.image?.files[0]?.file?.url ||
-                      post.image.files[0].external.url
-                    }
-                    alt='Blog Post Image'
-                    width={"400px"}
-                    height={"300px"}
-                    className='object-contain'
-                  />
+                  <div className='w-full h-[250px] overflow-hidden rounded-lg'>
+                    <img
+                      src={
+                        post.image?.files[0]?.file?.url ||
+                        post.image.files[0].external.url
+                      }
+                      alt='Blog Post Image'
+                      className='object-cover w-full h-full'
+                    />
+                  </div>
                   <div className='flex gap-2'>
                     {post.tags.multi_select.map((tag: any, index: number) => {
                       return (
                         <div
-                          style={{ backgroundColor: tag.color }}
-                          className='rounded-sm'
+                          style={{ backgroundColor: 'purple' }}
+                          className='rounded-full'
                           key={index}>
-                          <p className='text-[#ecf0f1] px-4 py-1'>{tag.name}</p>
+                          <p className='text-[#d3cece] tracking-wide font-medium text-sm px-4 py-1 capitalize'>
+                            {tag.name}
+                          </p>
                         </div>
-                      );
+                      )
                     })}
                   </div>
-                  <CardTitle className='text-lg'>
+                  <CardTitle className='font-bold text-xl font-sans tracking-wide text-white'>
                     {post?.name?.title[0]?.plain_text}
                   </CardTitle>
-                  <CardDescription className='text-gray-900 text-base tracking-normal'>
+                  <CardDescription className='font-medium tracking-wider leading-10 text-sm text-gray-400'>
                     {post?.description?.rich_text[0]?.plain_text}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Link href={`/blog/${post?.slug?.rich_text[0]?.plain_text}`}>
-                    <Button className='w-full'>Read More</Button>
+                    <Button className='w-full bg-[purple] hover:bg-[#c453c4]'>
+                      Read More
+                    </Button>
                   </Link>
                 </CardContent>
                 <CardFooter>
                   <div className='flex justify-between w-full'>
                     <div>
-                      <p className='text-gray-700 text-base'>
+                      <p className='font-medium tracking-wider text-xs text-gray-400'>
                         {post?.author?.rich_text[0]?.plain_text}
                       </p>
                     </div>
                     <div>
-                      <p className='text-gray-700 text-base'>
+                      <p className='font-medium tracking-wider text-xs text-gray-400'>
                         {post?.date?.date?.start}
                       </p>
                     </div>
                   </div>
                 </CardFooter>
               </Card>
-            );
+            )
           })}
         </div>
       </div>
     </div>
-  );
-};
-export default Blog;
+  )
+}
+export default Blog

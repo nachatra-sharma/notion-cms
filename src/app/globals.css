@@ -28,6 +28,14 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -54,6 +62,14 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 @layer base {
@@ -66,5 +82,30 @@
 }
 
 :root {
-  background-color: #2f3640;
+  background-color: #09090b;
+}
+
+body {
+  background-color: #09090b;
+}
+
+/* Webkit Browsers */
+::-webkit-scrollbar {
+  width: 8px; /* Adjust the width as needed */
+  height: 8px; /* Adjust the height for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #1f2937; /* Tailwind gray-800 */
+  border-radius: 4px; /* Round corners */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #374151; /* Optional: Tailwind gray-700 for track */
+}
+
+/* Firefox */
+* {
+  scrollbar-color: #1f2937 #374151; /* Thumb color gray-800, Track color gray-700 */
+  scrollbar-width: thin; /* Options: auto, thin, none */
 }
