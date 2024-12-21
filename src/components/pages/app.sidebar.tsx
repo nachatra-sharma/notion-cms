@@ -1,4 +1,14 @@
-import { FileClock, Home, Rss, Search, Settings } from 'lucide-react'
+import {
+  FileClock,
+  Github,
+  Home,
+  Instagram,
+  Linkedin,
+  Mail,
+  Rss,
+  Search,
+  Settings,
+} from 'lucide-react'
 
 import {
   Sidebar,
@@ -27,7 +37,7 @@ const items = [
   },
   {
     title: 'Recently Added Blogs',
-    url: '/blog/recent',
+    url: '/recent-blog',
     icon: FileClock,
   },
   {
@@ -42,16 +52,39 @@ const items = [
   },
 ]
 
+const socialLinks = [
+  {
+    title: 'Github',
+    url: 'https://www.github.com/nachatra-sharma',
+    icon: Github,
+  },
+  {
+    title: 'Linkedin',
+    url: 'https://www.github.com/nachatra-sharma',
+    icon: Linkedin,
+  },
+  {
+    title: 'Instagram',
+    url: 'https://www.github.com/nachatra-sharma',
+    icon: Instagram,
+  },
+  {
+    title: 'Email',
+    url: 'https://www.github.com/nachatra-sharma',
+    icon: Mail,
+  },
+]
+
 export function AppSidebar() {
   return (
-    <Sidebar className='border-gray-800'>
-      <SidebarContent className='bg-[#030711] border-blue-950'>
-        <SidebarGroup className='justify-between h-[100vh] text-white'>
-          <SidebarGroupLabel className='text-white'>
-            Blog Application
+    <Sidebar className="border-gray-800">
+      <SidebarContent className="bg-[#030711] border-blue-950">
+        <SidebarGroup className="justify-between h-[100vh] text-white">
+          <SidebarGroupLabel className="text-white">
+            Personal Website
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className='gap-4'>
+            <SidebarMenu className="gap-4">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
@@ -62,11 +95,22 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              {/* social links */}
+              {socialLinks.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <Link href={item.url} target="_blank">
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
           <SidebarFooter>
             <SidebarMenu>
-              <p className='text-sm'>Developed by Nachatra Sharma</p>
+              <p className="text-sm">Developed by Nachatra Sharma</p>
             </SidebarMenu>
           </SidebarFooter>
         </SidebarGroup>

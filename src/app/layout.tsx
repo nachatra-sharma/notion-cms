@@ -16,8 +16,8 @@ const geistMono = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Blog Website - Notion',
-  description: 'Blog website using notion as CMS',
+  title: 'Personal Website - Nachatra Sharma',
+  description: 'This is the personal website of Nachatra Sharma.',
 }
 
 export default function RootLayout({
@@ -26,13 +26,34 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en'>
+    <html lang="en">
+      <head>
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <SidebarProvider className='text-[#8027c9]'>
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <SidebarProvider>
           <AppSidebar />
-          <main className='w-full'>
-            <SidebarTrigger className='' />
+          <main className="w-full">
+            <SidebarTrigger />
             {children}
           </main>
         </SidebarProvider>
