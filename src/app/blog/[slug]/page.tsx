@@ -1,25 +1,24 @@
-import axios from 'axios'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import 'highlight.js/styles/atom-one-dark.css'
 import Image from 'next/image'
+import { FetchSingleBlog } from '@/actions/blog'
 
-async function fetchSingleBlogData(slug: string) {
-  const response = await axios.get(`http://localhost:3000/api/blog/${slug}`)
-  const result = response.data
-  return result
+type SingleBlogResult = {
+  result: { properties: any }[]
+  response: any
 }
 
 const SingleBlog = async ({ params }: any) => {
   const { slug } = await params
-  const data = await fetchSingleBlogData(slug)
-  const { response, result } = data?.data?.data?.result
-  const { properties } = result[0]
+  const data = await FetchSingleBlog(slug)
 
-  if (!data.success) {
-    return <p>Something went wrong please try again.</p>
+  if (!data.result) {
+    return <p>{data.message}</p>
   }
+  const { result, response } = data.result as SingleBlogResult
+  const { properties } = result[0]
 
   return (
     <div className="my-10">

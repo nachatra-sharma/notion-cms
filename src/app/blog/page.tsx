@@ -1,4 +1,3 @@
-'use client'
 import Link from 'next/link'
 import {
   Card,
@@ -8,74 +7,47 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import axios from 'axios'
 import { Button } from '@/components/ui/button'
-import { SkeletonCard } from '@/components/pages/app.skeleton'
-import { useState, useEffect } from 'react'
+// import { SkeletonCard } from '@/components/pages/app.skeleton'
 import Image from 'next/image'
+import { FetchAllBlogs } from '@/actions/blog'
 
-async function fetchAllBlogs() {
-  const blogs = await axios.get('http://localhost:3000/api/blog')
-  return blogs?.data
-}
+const Blog = async () => {
+  const data = await FetchAllBlogs()
 
-const Blog = () => {
-  const [data, setData] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  // if (loading) {
+  //   return (
+  //     <div className="mt-8">
+  //       <div className="w-[100%] mx-auto">
+  //         <div className="flex flex-col gap-7">
+  //           <h1 className="text-center font-bold text-3xl md:text-6xl font-serif text-white">
+  //             Share your story with the world.
+  //           </h1>
+  //           <p className="text-center font-semibold tracking-wider w-[90%] md:w-[80%] leading-8 mx-auto text-sm md:text-base text-gray-300">
+  //             Discover a collection of engaging and personalized blogs that
+  //             reflect unique stories and perspectives. Each blog is crafted to
+  //             inspire, educate, and entertain. Whether you&apos;re looking to
+  //             grow your knowledge, find inspiration, or simply enjoy great
+  //             content, our blogs have something for everyone.
+  //           </p>
+  //         </div>
+  //         <div className="flex flex-wrap gap-10 justify-around my-10">
+  //           {Array(8)
+  //             .fill(null)
+  //             .map((_, index) => (
+  //               <SkeletonCard key={index} />
+  //             ))}
+  //         </div>
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetchAllBlogs()
-        if (response?.success) {
-          setData(response.data)
-        } else {
-          setError(true)
-        }
-      } catch (err) {
-        console.log(err)
-        setError(true)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [])
-
-  if (loading) {
-    return (
-      <div className="mt-8">
-        <div className="w-[100%] mx-auto">
-          <div className="flex flex-col gap-7">
-            <h1 className="text-center font-bold text-3xl md:text-6xl font-serif text-white">
-              Share your story with the world.
-            </h1>
-            <p className="text-center font-semibold tracking-wider w-[90%] md:w-[80%] leading-8 mx-auto text-sm md:text-base text-gray-300">
-              Discover a collection of engaging and personalized blogs that
-              reflect unique stories and perspectives. Each blog is crafted to
-              inspire, educate, and entertain. Whether you&apos;re looking to
-              grow your knowledge, find inspiration, or simply enjoy great
-              content, our blogs have something for everyone.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-10 justify-around my-10">
-            {Array(8)
-              .fill(null)
-              .map((_, index) => (
-                <SkeletonCard key={index} />
-              ))}
-          </div>
-        </div>
-      </div>
-    )
+  if (!data.allPosts) {
+    return <p className="text-center text-red-500">{data.message}</p>
   }
 
-  if (error) {
-    return <p className="text-center text-red-500">Failed to load blogs.</p>
-  }
-
-  return data?.data?.allPosts.length === 0 ? (
+  return data.allPosts.length === 0 ? (
     <p className="text-center text-gray-400">No blogs found.</p>
   ) : (
     <div className="mt-8">
@@ -93,7 +65,7 @@ const Blog = () => {
           </p>
         </div>
         <div className="flex flex-wrap justify-around md:gap-0 gap-5 my-10">
-          {data?.data?.allPosts.map((post: any, index: number) => {
+          {data.allPosts.map((post: any, index: number) => {
             return (
               <Card
                 key={index}
